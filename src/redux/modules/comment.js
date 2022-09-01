@@ -12,7 +12,7 @@ export const __getComments = createAsyncThunk(
   "comments/getComments",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get("http://localhost:3001/comments");
+      const data = await axios.get("https://yoriking.herokuapp.com/comments");
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -26,20 +26,20 @@ export const commentSlice = createSlice({
   reducers: {
     createComment: (state, action) => {
       state.comments.push(action.payload);
-      axios.post("http://localhost:3001/comments", action.payload);
+      axios.post("https://yoriking.herokuapp.com/comments", action.payload);
     },
-    // removeComment: (state, action) => {
-    //   let index = state.comments.findIndex(
-    //     (comment) => comment.id === action.payload
-    //   );
-    //   state.comments.splice(index, 1);
-    //   axios.delete(`https://localhost:3001/comments/${action.payload}`);
-    // },
-    // updateComment: (state, action) => {
-    //   let index = state.comments.findIndex(post => post.id === action.payload.id);
-    //   state.comments.splice(index, 1, action.payload);
-    //   axios.patch(`https://localhost:3001/comments/${action.payload.id}`)
-    // }
+     removeComment: (state, action) => {
+     let index = state.comments.findIndex(
+        (comment) => comment.id === action.payload
+      );
+      state.comments.splice(index, 1);
+      axios.delete(`https://yoriking.herokuapp.com/comments/${action.payload}`);
+    },
+    updateComment: (state, action) => {
+      let index = state.comments.findIndex(post => post.id === action.payload.id);
+      state.comments.splice(index, 1, action.payload);
+      axios.patch(`https://yoriking.herokuapp.com/comments/${action.payload.id}`)
+    }
   },
   extraReducers: {
     [__getComments.pending]: (state) => {
